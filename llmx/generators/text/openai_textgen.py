@@ -15,12 +15,14 @@ class OpenAITextGenerator(TextGenerator):
         organization: str = None,
         api_type: str = None,
         api_version: str = None,
+        base_url: str = os.environ.get("OPENAI_BASE_URL", None),
         azure_endpoint: str = None,
         model: str = None,
         models: Dict = None,
     ):
         super().__init__(provider=provider)
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", None)
+        self.base_url = base_url or os.environ.get("OPENAI_BASE_URL", None)
 
         if self.api_key is None:
             raise ValueError(
@@ -31,6 +33,7 @@ class OpenAITextGenerator(TextGenerator):
             "api_key": self.api_key,
             "organization": organization,
             "api_version": api_version,
+            "base_url": base_url,
             "azure_endpoint": azure_endpoint,
         }
         # remove keys with None values
